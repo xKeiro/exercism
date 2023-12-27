@@ -1,35 +1,35 @@
-// The code below is a stub. Just enough to satisfy the compiler.
-// In order to pass the tests you can add-to or change any of this code.
-
 #[derive(Debug)]
-pub struct Duration;
+pub struct Duration(f64);
 
 impl From<u64> for Duration {
-    fn from(s: u64) -> Self {
-        todo!("s, measured in seconds: {s}")
+    fn from(seconds: u64) -> Self {
+        Duration(seconds as f64 / 31_557_600_f64)
     }
 }
 
 pub trait Planet {
-    fn years_during(d: &Duration) -> f64 {
-        todo!("convert a duration ({d:?}) to the number of years on this planet for that duration");
+    fn orbital_period() -> f64;
+    fn years_during(duration: &Duration) -> f64 {
+        duration.0 / Self::orbital_period()
     }
 }
 
-pub struct Mercury;
-pub struct Venus;
-pub struct Earth;
-pub struct Mars;
-pub struct Jupiter;
-pub struct Saturn;
-pub struct Uranus;
-pub struct Neptune;
+macro_rules! planet {
+    ($planet:ident, $orbital_period:expr) => {
+        pub struct $planet;
+        impl Planet for $planet {
+            fn orbital_period() -> f64 {
+                $orbital_period
+            }
+        }
+    };
+}
 
-impl Planet for Mercury {}
-impl Planet for Venus {}
-impl Planet for Earth {}
-impl Planet for Mars {}
-impl Planet for Jupiter {}
-impl Planet for Saturn {}
-impl Planet for Uranus {}
-impl Planet for Neptune {}
+planet!(Mercury, 0.2408467);
+planet!(Venus, 0.61519726);
+planet!(Earth, 1.0);
+planet!(Mars, 1.8808158);
+planet!(Jupiter, 11.862615);
+planet!(Saturn, 29.447498);
+planet!(Uranus, 84.016846);
+planet!(Neptune, 164.79132);
