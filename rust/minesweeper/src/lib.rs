@@ -1,4 +1,4 @@
-static NEIGBOUR_CELL_OFFSETS: &'static [(i8, i8)] = &[
+static NEIGHBOUR_CELL_OFFSETS: &'static [(i8, i8)] = &[
     (-1, -1),   (0, -1),    (1, -1),
     (-1, 0),                (1, 0),
     (-1, 1),    (0, 1),     (1, 1),
@@ -18,7 +18,7 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
                     if cell == b'*' {
                         '*'
                     } else {
-                        match NEIGBOUR_CELL_OFFSETS
+                        match NEIGHBOUR_CELL_OFFSETS
                             .iter()
                             .map(|(ox, oy)| (x as i8 + ox, y as i8 + oy))
                             .filter(|&(x, y)| {
