@@ -27,7 +27,7 @@ fn get_annotation(cell: u8, minefield: &[&str], x: usize, y: usize) -> char {
 fn get_neighbours<'a>(minefield: &'a [&'a str], x: usize, y: usize) -> Vec<&u8> {
     let width = minefield[0].len();
     let height = minefield.len();
-    let neighbors = (-1..=1)
+    (-1..=1)
         .flat_map(|xi| (-1..=1).map(move |yi| (xi, yi)))
         .filter(|&(xi, yi)| !(xi == 0 && yi == 0))
         .filter_map(|(xi, yi)| {
@@ -39,8 +39,7 @@ fn get_neighbours<'a>(minefield: &'a [&'a str], x: usize, y: usize) -> Vec<&u8> 
                 Some(&minefield[new_y as usize].as_bytes()[new_x as usize])
             }
         })
-        .collect();
-    neighbors
+        .collect()
 }
 
 fn get_neighbour_mine_count(neighbours: &[&u8]) -> usize {
