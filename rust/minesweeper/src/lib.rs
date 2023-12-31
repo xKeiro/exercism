@@ -32,11 +32,8 @@ fn get_neighbours<'a>(minefield: &'a [&'a str], x: usize, y: usize) -> impl Iter
         .filter_map(move |(xi, yi)| {
             let new_x = x as i8 + xi;
             let new_y = y as i8 + yi;
-            if new_x < 0 || new_x >= width as i8 || new_y < 0 || new_y >= height as i8 {
-                None
-            } else {
-                Some(&minefield[new_y as usize].as_bytes()[new_x as usize])
-            }
+            (new_x >= 0 && new_x < width as i8 && new_y >= 0 && new_y < height as i8)
+                .then(|| &minefield[new_y as usize].as_bytes()[new_x as usize])
         })
 }
 
