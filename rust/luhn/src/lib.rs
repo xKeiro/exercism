@@ -34,5 +34,5 @@ fn calculate_luhn_sum(bcode: &[u8]) -> usize {
                 _ => digit * 2 - 9,
             }
         })
-        .sum::<u8>() as usize
+        .fold(0, |acc, x| acc + x as usize)
 }
