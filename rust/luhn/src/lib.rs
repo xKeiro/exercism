@@ -1,14 +1,26 @@
-/// Check a Luhn checksum.
 pub fn is_valid(code: &str) -> bool {
-    let stripped_code = code.replace(' ', "");
+    let stripped_code = strip_spaces(code);
     if stripped_code.len() <= 1 {
         return false;
     }
     let bcode = stripped_code.as_bytes();
-    if !bcode.iter().all(|b| b.is_ascii_digit()) {
+    if !is_all_digits(bcode) {
         return false;
     }
-    let sum: usize = bcode
+    let luhn_sum = calculate_luhn_sum(bcode);
+    luhn_sum % 10 == 0
+}
+
+fn strip_spaces(code: &str) -> String {
+    code.replace(' ', "")
+}
+
+fn is_all_digits(bcode: &[u8]) -> bool {
+    bcode.iter().all(|b| b.is_ascii_digit())
+}
+
+fn calculate_luhn_sum(bcode: &[u8]) -> usize {
+    bcode
         .iter()
         .rev()
         .enumerate()
@@ -18,13 +30,9 @@ pub fn is_valid(code: &str) -> bool {
                 return digit;
             }
             match digit {
-                (0..=4) => digit * 2,
+                0..=4 => digit * 2,
                 _ => digit * 2 - 9,
             }
         })
-        .fold(0, |acc, x| acc + x as usize);
-    if sum % 10 != 0 {
-        return false;
-    }
-    true
+        .sum::<u8>() as usize
 }
