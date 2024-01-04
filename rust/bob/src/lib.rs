@@ -4,7 +4,11 @@ pub fn reply(message: &str) -> &str {
     if trimmed_message.is_empty() {
         return Bob::Empty.say();
     }
-    let have_letters = message.chars().filter(|x| x.is_alphabetic()).count() > 0;
+    let have_letters = trimmed_message
+        .chars()
+        .filter(|x| x.is_alphabetic())
+        .count()
+        > 0;
     let is_uppercase = trimmed_message.to_uppercase() == trimmed_message && have_letters;
     let is_question = trimmed_message.ends_with('?');
 
